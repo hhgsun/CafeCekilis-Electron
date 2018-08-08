@@ -50,8 +50,11 @@
     <br>
     <!-- ÜST BÖLÜM -->
     <div class="ui raised very padded container segment" id="appheader">
+      <!-- <div class="bg-header">
+        <img class="ui image" src="assets/images/gift-cafe-logo.png" />
+      </div> -->
       <h1 id="appTitle" class="ui header">
-        <img class="ui image" src="assets/images/gift-cafe-logo.png" width="250" />
+        <!-- <img class="ui image" src="assets/images/gift-cafe-logo.png" width="250" /> -->
         <div class="content">
           <!-- Cafe Çekiliş! -->
         </div>
@@ -220,13 +223,18 @@
         <div class="ui divider"></div>
         <div id="btnSetting" class="item">Ayarlar</div>
         <div id="btnUsageReset" class="item">Kullanıcıları Sıfırla</div>
+        <div class="ui divider"></div>
+        <div id="btnQuit" class="item">Çıkış</div>
       </div>
     </div>
 
 
   </div>
 
-  <script src="assets/jquery/jquery-1.7.1.min.js"></script>
+  <!-- Insert this line above script imports  -->
+  <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+
+  <script src="assets/jquery/jquery-2.2.0.min.js" onload="window.$ = window.jQuery;"></script>
 
   <script src="assets/semantic/semantic.min.js"></script>
 
@@ -238,8 +246,13 @@
     console.log("Node.js", process.versions.node);
     console.log("Chromium", process.versions.chrome);
     console.log("Electron", process.versions.electron);
-
   </script>
+
+  <!-- <script src="/renderer.js"></script> -->
+
+  <!-- Insert this line after script imports -->
+  <script>if (window.module) module = window.module;</script>
+
 </body>
 
 </html>

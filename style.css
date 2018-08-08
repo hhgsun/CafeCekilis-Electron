@@ -15,7 +15,7 @@ body {
 .slick-list {
    margin-top: -50px !important;
    margin-bottom: 0 !important;
-   max-height: 250px !important;
+   max-height: 262px !important;
 }
 
 .list-header{
@@ -33,4 +33,26 @@ p#appDesc {
    font-weight: bolder !important;
    font-size: 2em !important;
    margin-bottom: 0.5em !important;
+}
+
+#appTitle{
+   text-align: center;
+   margin-top: 0 !important;
+}
+
+#appheader{
+   margin-top: 40px;
+   background-image: url(assets/images/cafe-head-logo-3.png);
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: right center;
+   position: relative;
+   text-shadow: 0px 0px 5px #fff;
+}
+
+.bg-header {
+   position: absolute;
+}
+.bg-header img {
+   width: 250px;
 }
