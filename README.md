@@ -4,10 +4,12 @@
 - npm i
 
 -- electron-builder: 
+
 -- "scripts": {
     "start": "electron .",
     "dist": "build"
    }
+   
 -- "build": {
     "appId":"com.hhgsun.cafecekilis",
     "win":{
