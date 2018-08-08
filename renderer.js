@@ -85,48 +85,52 @@ $("#btnGiftCreate").click(function () {
       } else alert("Lütfen ürün adı, olasılık değerini ve resim url'sini girin");
 });
 
-$(".gift-box").dblclick(function (event) {
-      var gifts = content_data.gifts;
-      var selectGiftId = event.currentTarget.id;
-      var selectGiftListIndex = null;
-      var selectGift = null;
-      gifts.forEach((gift, index) => {
-            if (gift.id == selectGiftId) {
-                  selectGiftListIndex = index;
-                  selectGift = gift;
-            }
-      });
-      if (selectGift && (selectGiftListIndex || selectGiftListIndex == 0)) {
-            setGiftInputs(selectGift.name, selectGift.desc, selectGift.imageUrl, selectGift.possibility);
-            $('#btnGiftCreate').hide();
-            $('#btnGiftDelete').show();
-            $('#btnGiftUpdate').show();
-            $('#urunEkleModal').modal('show').modal({
-                  onApprove: function () { return false }
+function gitBoxClickLoad() {
+      $('.gift-box').dblclick(function (event) {
+            console.log("dblclick");
+            var gifts = content_data.gifts;
+            var selectGiftId = event.currentTarget.id;
+            var selectGiftListIndex = null;
+            var selectGift = null;
+            gifts.forEach((gift, index) => {
+                  if (gift.id == selectGiftId) {
+                        selectGiftListIndex = index;
+                        selectGift = gift;
+                  }
             });
-            $('#btnGiftDelete').click(function () {
-                  var tf = confirm("Silmek İstediğinize Eminmisiniz");
-                  if (tf) {
-                        gifts.splice(selectGiftListIndex, 1);
+            if (selectGift && (selectGiftListIndex || selectGiftListIndex == 0)) {
+                  setGiftInputs(selectGift.name, selectGift.desc, selectGift.imageUrl, selectGift.possibility);
+                  $('#btnGiftCreate').hide();
+                  $('#btnGiftDelete').show();
+                  $('#btnGiftUpdate').show();
+                  $('#urunEkleModal').modal('show').modal({
+                        onApprove: function () { return false }
+                  });
+                  $('#btnGiftDelete').click(function () {
+                        var tf = confirm("Silmek İstediğinize Eminmisiniz");
+                        if (tf) {
+                              gifts.splice(selectGiftListIndex, 1);
+                              content_data.gifts = gifts;
+                              contentDataSave();
+                              $('#dropdownMessage').html("Değişiklik Yapıldı Uygulamayı Yenileyiniz");
+                        } else console.log("silinmedi");
+                  });
+                  $('#btnGiftUpdate').click(function () {
+                        gifts[selectGiftListIndex] = {
+                              id: selectGift.id,
+                              name: $("#inputGiftName").val(),
+                              desc: $("#inputGiftDesc").val(),
+                              imageUrl: $("#inputGiftImage").val(),
+                              possibility: $("#inputGiftPossibility").val(),
+                        };
                         content_data.gifts = gifts;
                         contentDataSave();
                         $('#dropdownMessage').html("Değişiklik Yapıldı Uygulamayı Yenileyiniz");
-                  } else console.log("silinmedi");
-            });
-            $('#btnGiftUpdate').click(function () {
-                  gifts[selectGiftListIndex] = {
-                        id: selectGift.id,
-                        name: $("#inputGiftName").val(),
-                        desc: $("#inputGiftDesc").val(),
-                        imageUrl: $("#inputGiftImage").val(),
-                        possibility: $("#inputGiftPossibility").val(),
-                  };
-                  content_data.gifts = gifts;
-                  contentDataSave();
-                  $('#dropdownMessage').html("Değişiklik Yapıldı Uygulamayı Yenileyiniz");
-            });
-      }
-});
+                  });
+            }
+      });
+}
+
 
 $('#btnCekilisModalAc').click(function () {
       $('#inputMusterName').val(null);
@@ -180,7 +184,7 @@ $('#btnUsageReset').click(function () {
       }
 });
 
-$('#btnQuit').click(function(){
+$('#btnQuit').click(function () {
       remote.getCurrentWindow().close(); //çıkış butonu
 })
 //jquery end
@@ -191,9 +195,9 @@ function giftsRender() {
             const gift = gifts[i];
             if (gift.name && gift.imageUrl) {
                   $("#slider1").append(
-                        '<div><div class="ui fluid image gift-box" id="' + gift.id + '">'
+                        '<div><div class="gift-box ui fluid image" id="' + gift.id + '">'
                         + '<div class="ui top right attached label">' + gift.name + '</div>'
-                        + '<img src="' + gift.imageUrl + '">' +
+                        + '<img class="gift-box-img" src="' + gift.imageUrl + '">' +
                         '</div></div>'
                   );
             }
@@ -208,6 +212,7 @@ function giftsRender() {
             arrows: false,
             variableWidth: true
       });
+      gitBoxClickLoad();
 }
 
 function pastUsageRender() {
