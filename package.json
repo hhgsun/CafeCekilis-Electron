@@ -1,0 +1,29 @@
+{
+  "name": "CafeCekilis",
+  "version": "1.0.0",
+  "description": "A HHGsun application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "build"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Cafe",
+    "cekilis",
+    "hhgsun"
+  ],
+  "author": "HHGsun",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^2.0.0",
+    "electron-builder": "^20.26.1"
+  },
+  "build": {
+    "appId":"com.hhgsun.cafecekilis",
+    "win":{
+      "target": "nsis",
+      "icon":"build/icon.ico"
+    }
+  }
+}

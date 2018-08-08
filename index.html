@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cafe Çekiliş - @HHGsun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--
+    pure css
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+  -->
+
+  <!-- Semantic -->
+  <link rel="stylesheet" type="text/css" href="assets/semantic/semantic.min.css">
+
+  <!-- Slick -->
+  <link rel="stylesheet" type="text/css" href="assets/slick/slick.css" />
+  <link rel="stylesheet" type="text/css" href="assets/slick/slick-theme.css" />
+
+  <!-- Custom -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+  <div id="cover" class="ui">
+
+    <!-- Dimmer -->
+    <div class="ui dimmer">
+      <div id="cekilisSonrasiSonuc" class="content">
+        <h1>
+          <!-- Ali Bey -->
+        </h1>
+        <h2 class="ui green icon header">
+          <i class="gift icon"></i>
+          <p>
+            <!-- Çay -->
+          </p>
+          <span>
+            <!-- Hediye Kazandı! -->
+          </span>
+        </h2>
+        <div class="ui indeterminate massive text loader">d
+          <!-- Sonucunuz Bekleniyor -->
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <!-- ÜST BÖLÜM -->
+    <div class="ui raised very padded container segment" id="appheader">
+      <h1 id="appTitle" class="ui header">
+        <img class="ui image" src="assets/images/gift-cafe-logo.png" width="250" />
+        <div class="content">
+          <!-- Cafe Çekiliş! -->
+        </div>
+      </h1>
+      <p id="appDesc">
+        <!-- Belirli bir harcama yapma durumunda hesap ödedikten sonra çekiliş yapma hakkına sahip olacaksınız, çekilişimizde şanslı kişileri
+        tamamen yazılım belirler güven duyabilirsiniz. -->
+      </p>
+      <p id="appHeadButton">
+        <button id="btnCekilisModalAc" type="button" class="ui primary inverted huge button">
+          <!-- Başla -->
+        </button>
+      </p>
+    </div>
+
+    <!-- ALT BÖLÜM -->
+    <div class="ui grid container">
+      <!-- sol -->
+      <div id="pastUsageBox" class="six wide column">
+        <h3 class="ui header list-header">Son Çekilişler</h3>
+        <div class="ui segment">
+          <div class="ui relaxed divided list">
+            <!-- <div class="item">
+              <div class="content">
+                <div class="header">Ahmet Bey</div>
+                Çay
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+      </div>
+      <!--/.column-->
+
+      <!--sağ-->
+      <div class="ten wide column">
+        <h3 class="ui header list-header">
+          Kazanabileceğiniz Ürünler
+        </h3>
+
+        <!-- Slick slider html -->
+        <div id="slider1" class="ui segment">
+          <!-- js ile veri buraya çekiliyor -->
+          <!-- <div>
+          <div class="ui fluid image">
+            <div class="ui top right attached label">Çay</div>
+            <img src="https://semantic-ui.com/images/wireframe/square-image.png">
+          </div>
+        </div> -->
+        </div>
+
+      </div>
+      <!--/.column-->
+
+    </div>
+    <!--/.conteiner-->
+
+
+    <!-- ÇEKİLİS MODAL -->
+    <div id="cekilisModal" class="ui small modal" style="max-width: 400px;">
+      <!-- <i class="close icon"></i> -->
+      <div class="header">
+        Çekiliş Yap
+      </div>
+      <div class="content">
+        <div class="ui huge icon input" style="width: 100%">
+          <input id="inputMusterName" type="text" placeholder="Müşteri Adı...">
+          <i class="user icon"></i>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui black deny button">
+          Vazgeç
+        </div>
+        <div id="btnCekiliseBasla" class="ui positive right labeled icon button">
+          Başla
+          <i class="checkmark icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÜRÜN EKLE MODAL -->
+    <div id="urunEkleModal" class="ui small modal">
+      <!-- <i class="close icon"></i> -->
+      <div class="header">
+        Ürün Ekle
+      </div>
+      <div class="content">
+        <div class="ui huge icon input" style="margin-right: 20px;">
+          <input id="inputGiftName" type="text" placeholder="Ürün Adı (örn: Çay)">
+          <i class="gift icon"></i>
+        </div>
+        <div class="ui huge icon input">
+          <input id="inputGiftPossibility" type="number" placeholder="Olasılık Değeri (örn:20)">
+          <i class="filter icon"></i>
+        </div>
+      </div>
+      <div class="content">
+        <div class="ui huge icon input" style="margin-right: 20px;">
+          <input id="inputGiftImage" type="text" placeholder="Görsel Url'si (Cihazınızdan bir görselin path adresi olabilir)">
+          <i class="filter icon"></i>
+        </div>
+        <div class="ui huge icon input">
+          <input id="inputGiftDesc" type="text" placeholder="Açıklama">
+          <i class="question circle icon"></i>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui black deny button">
+          Vazgeç
+        </div>
+        <div id="btnGiftDelete" class="ui cancel deny button" style="display: none;">
+          Sil
+        </div>
+        <div id="btnGiftUpdate" class="ui positive deny button" style="display: none;">
+          Güncelle
+        </div>
+        <div id="btnGiftCreate" class="ui positive right labeled icon button">
+          Kaydet
+          <i class="checkmark icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- AYARLAR MODAL -->
+    <div id="settingsModal" class="ui small modal" style="max-width: 400px;">
+      <!-- <i class="close icon"></i> -->
+      <div class="header">
+        Ayarlar
+      </div>
+      <div class="content">
+        <div class="ui huge icon input" style="width: 100%; margin-bottom: 5px;">
+          <input id="inputHeaderTitle" type="text" placeholder="Üst Başlık...">
+          <i class="clipboard icon"></i>
+        </div>
+        <div class="ui huge icon form" style="width: 100%; margin-bottom: 5px;">
+          <textarea id="inputHeaderDesc" rows="2" placeholder="Üst Açıklama..."></textarea>
+        </div>
+        <div class="ui huge icon input" style="width: 100%; margin-bottom: 5px;">
+          <input id="inputHeaderButtonTitle" type="text" placeholder="Button üstündeki yazı...">
+          <i class="clipboard icon"></i>
+        </div>
+        <div class="ui huge icon input" style="width: 100%; margin-bottom: 5px;">
+          <input id="inputHeaderMarginTop" type="number" placeholder="Uygulama Üstü Boşluk">
+          <i class="arrows alternate vertical icon"></i>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui black deny button">
+          Vazgeç
+        </div>
+        <div id="btnSettingSave" class="ui positive right labeled icon button">
+          Kaydet
+          <i class="checkmark icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <!--DROPDOWN-->
+    <div class="ui icon top left pointing dropdown button" style="position: absolute; right: 3px; bottom: 5px;">
+      <i class="info icon"></i>
+      <span id="dropdownMessage"></span>
+      <div class="menu">
+        <div id="btnUrunEkleModalAc" class="item">Ürün Ekle</div>
+        <div id="btnRefreshApp" class="item">Uygulamayı Yenile</div>
+        <div class="ui divider"></div>
+        <div id="btnSetting" class="item">Ayarlar</div>
+        <div id="btnUsageReset" class="item">Kullanıcıları Sıfırla</div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script src="assets/jquery/jquery-1.7.1.min.js"></script>
+
+  <script src="assets/semantic/semantic.min.js"></script>
+
+  <script src="assets/slick/slick.min.js"></script>
+
+  <script>
+    require('./renderer.js');
+
+    console.log("Node.js", process.versions.node);
+    console.log("Chromium", process.versions.chrome);
+    console.log("Electron", process.versions.electron);
+
+  </script>
+</body>
+
+</html>
