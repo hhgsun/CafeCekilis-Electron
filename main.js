@@ -25,6 +25,7 @@ function createWindow() {
   });
 
 
+  // FULL SCREEN
   mainWindow.setFullScreen(true);
 
 }

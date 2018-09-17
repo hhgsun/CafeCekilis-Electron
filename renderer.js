@@ -7,15 +7,22 @@ const remote = require('electron').remote;
 const storage = require('electron-json-storage');
 
 var content_data = null;
-contentDataGet();
-function contentDataGet() {
-      storage.get("app_data", function (err, res) {
-            if (err || !res.appSettings) {
-                  content_data = require('./reset_data.js');
-                  contentDataSave();
-            }
-            else content_data = res;
-            startAppData();
+contentDataGet(true);
+function contentDataGet(firstLoad = false) {
+      return new Promise(function (resolve, reject) {
+            storage.get("app_data", function (err, res) {
+                  if (err || !res.appSettings) {
+                        content_data = require('./reset_data.js');
+                        contentDataSave();
+                        resolve(content_data);
+                  }
+                  else {
+                        content_data = res;
+                        resolve(content_data);
+                  };
+                  if (firstLoad)
+                        startAppData();
+            });
       });
 }
 function contentDataSave() {
@@ -40,6 +47,7 @@ $('#btnSetting').click(function () {
       $("#inputHeaderDesc").val(content_data.appSettings.appDesc);
       $("#inputHeaderButtonTitle").val(content_data.appSettings.appHeadButton);
       $("#inputHeaderMarginTop").val(content_data.appSettings.appMarginTop);
+      $('#inputCekilisSonrasiBekleme').val(content_data.appSettings.appCekilisSonrasiBekleme);
       $('#settingsModal').modal("show");
 });
 $('#btnSettingSave').click(function () {
@@ -47,6 +55,7 @@ $('#btnSettingSave').click(function () {
       content_data.appSettings.appDesc = $("#inputHeaderDesc").val();
       content_data.appSettings.appHeadButton = $("#inputHeaderButtonTitle").val();
       content_data.appSettings.appMarginTop = $("#inputHeaderMarginTop").val();
+      content_data.appSettings.appCekilisSonrasiBekleme = $('#inputCekilisSonrasiBekleme').val();
       contentDataSave();
       settingRender();
 });
@@ -85,8 +94,8 @@ $("#btnGiftCreate").click(function () {
       } else alert("Lütfen ürün adı, olasılık değerini ve resim url'sini girin");
 });
 
-function gitBoxClickLoad() {
-      $('.gift-box').dblclick(function (event) {
+function giftBoxClickLoad() {
+      $('.gift-box').click(function (event) {
             console.log("dblclick");
             var gifts = content_data.gifts;
             var selectGiftId = event.currentTarget.id;
@@ -133,21 +142,33 @@ function gitBoxClickLoad() {
 
 
 $('#btnCekilisModalAc').click(function () {
+      cekilisModalAc();
+});
+
+function cekilisModalAc() {
       $('#inputMusterName').val(null);
       $('#cekilisModal').modal('show').modal({
             onApprove: function () { return false }
       });
+}
+
+$('#inputMusterName').keypress(function (e) {
+      if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+            cekilisStart();
+      }
+});
+$('#btnCekiliseBasla').click(function () {
+      cekilisStart();
 });
 
-$('#btnCekiliseBasla').click(function () {
+function cekilisStart() {
       var musteriName = $('#inputMusterName').val() || "Müşteri";
-      var sonucHediye = null;
       if (musteriName) {
             $('#cekilisModal').modal('hide'); //müşteri adı alınan modal kapanır
-            $('#cekilisSonrasiSonuc h1').html(musteriName).hide(); //dimmerde gözükecek müşteri adı
-            $('#cekilisSonrasiSonuc h2').hide(); //dimmer açıklama
+            $('#cekilisSonrasiSonuc h1').html(musteriName);/* .hide(); */ //dimmerde gözükecek müşteri adı
+            /*  $('#cekilisSonrasiSonuc h2').hide(); */ //dimmer açıklama
             $('#cover').dimmer('show'); //dimmer aç
-            $('#cekilisSonrasiSonuc div').html("Sonuç Bekleniyor").show(); //dimmerde loading kısmı
+            /* $('#cekilisSonrasiSonuc div').html("Sonuç Bekleniyor").show(); */ //dimmerde loading kısmı
             hediyeCekilisCtrl().then(function (gift) {
                   var user = {
                         id: "user-" + Date.now() + "--" + Date.now().toLocaleString(),
@@ -156,33 +177,49 @@ $('#btnCekiliseBasla').click(function () {
                         date: new Date(),
                   }
                   content_data.pastUsage.push(user);
+                  var openinBox = document.getElementById("present");
                   contentDataSave();
                   setTimeout(function () {
                         $('#cover').dimmer('hide');
-                        $('#cekilisSonrasiSonuc h1').show();
-                        $('#cekilisSonrasiSonuc h2').show();
-                        $('#cekilisSonrasiSonuc h2 p').html(gift.name);
-                        $('#cekilisSonrasiSonuc h2 span').html("Hediye Kazandı");
-                        $('#cekilisSonrasiSonuc div').hide();
-                        $('#cover').dimmer('show');
+                        $('#cekilisSonrasiSonuc div h2').html(gift.name);
+                        $('#cekilisSonrasiSonuc span').html('<img src="' + gift.imageUrl + '" />');
+                        $('#cekilisSonrasiSonuc div h1').html(musteriName);
+                        /* $('#cekilisSonrasiSonuc div').hide();
+                        $('#cover').dimmer('show'); */
+                        openinBox.classList.toggle("open");
+                        var beklemeSuresi = content_data.appSettings.appCekilisSonrasiBekleme;
                         setTimeout(function () {
-                              content_data = contentDataGet();
-                              pastUsageRender();
-                              $('#cover').dimmer('hide');
-                        }, 4000);
+                              contentDataGet().then(function (res) {
+                                    content_data = res;
+                                    pastUsageRender();
+                                    if (beklemeSuresi > 1) {
+                                          openinBox.classList.toggle("open");
+                                    }
+                                    /* $('#cover').dimmer('hide'); */
+                              });
+                        }, beklemeSuresi * 1000);
                   }, 2000);
             });
       } else alert("Lütfen isim belirtiniz");
-});
+}
+
 
 $('#btnUsageReset').click(function () {
-      var tf = confirm("Sıfırlamak istediğinize eminmisiniz, Tüm geçmiş kullanım kayıtları silinecektir").valueOf;
+      var tf = confirm("Sıfırlamak istediğinize eminmisiniz, Tüm geçmiş kullanım kayıtları silinecektir");
       if (tf) {
             content_data.pastUsage = [];
             contentDataSave();
             yenileSayfa();
+      } else {
+            console.log(tf);
       }
 });
+
+$('#btnPastUsageModal').click(function () {
+      $('#pastUsageBoxModal').modal('show').modal({
+            onApprove: function () { return false }
+      });
+})
 
 $('#btnQuit').click(function () {
       remote.getCurrentWindow().close(); //çıkış butonu
@@ -190,29 +227,21 @@ $('#btnQuit').click(function () {
 //jquery end
 
 function giftsRender() {
+      $('#gift-list').html("");
       var gifts = content_data.gifts;
       for (let i = 0; i < gifts.length; i++) {
             const gift = gifts[i];
-            if (gift.name && gift.imageUrl) {
-                  $("#slider1").append(
-                        '<div><div class="gift-box ui fluid image" id="' + gift.id + '">'
-                        + '<div class="ui top right attached label">' + gift.name + '</div>'
-                        + '<img class="gift-box-img" src="' + gift.imageUrl + '">' +
-                        '</div></div>'
-                  );
+            if (gift.name) {
+                  $("#gift-list").append(
+                        '<div class="item gift-box" id="' + gift.id + '">'
+                        + '<div class="content">'
+                        + '<div class="header">' + gift.name + '</div>'
+                        + '</div>'
+                        + '</div>'
+                  )
             }
       }
-      //slider1
-      $('#slider1').slick({
-            autoplay: true,
-            autoplaySpeed: 2000,
-            speed: 300,
-            slidesToShow: 2,
-            slidesToScroll: 1,
-            arrows: false,
-            variableWidth: true
-      });
-      gitBoxClickLoad();
+      giftBoxClickLoad();
 }
 
 function pastUsageRender() {
@@ -229,8 +258,9 @@ function pastUsageRender() {
                   selectGiftName = selectGift ? selectGift.name : "Hediye Ürün";
                   $("#pastUsageBox div.list").append(
                         '<div id="' + usage.id + '" class="item"><div class="content">'
-                        + '<div class="header">' + usage.name + '</div>' + selectGiftName +
-                        '</div></div>'
+                        + '<div class="header">' + usage.name + '</div>' + selectGiftName
+                        + '<small style="margin-left:5px;">' + new Date(usage.date).toLocaleDateString() + '</small>'
+                        + '</div></div>'
                   );
             }
       }
@@ -279,35 +309,30 @@ function yenileSayfa() {
       location.reload();
 }
 
-// Asynchronous read
-/* fs.readFile(contentDataFilePathAdress, function (err, data) {
-   if (err) {
-      return console.error(err);
-   }
-   console.log("DATALAR: ", JSON.parse(data));
-});
- */
 
 
-// bu şekilde olacak
-/* {
-   "pastUsage" : [
-      {
-         "id": 1,
-         "name": "Hasan Hüseyin",
-         "giftId": 1
-      },
-   ],
-   "gifts": [
-      {
-         "id": 1,
-         "name": "Çay",
-         "desc": "Taze Çaykur"
-      },
-      {
-         "id": 2,
-         "name": "Tatlı",
-         "desc": "Taze"
-      }
-   ]
-} */
+/**
+ * /////////////////////////////////////////////
+ * OPENİNG BOX
+ * /////////////////////////////////////////////
+ * /////////////////////////////////////////////
+ **/
+
+var toText = 'Başla!';
+var nametag = document.getElementById("nametag");
+var present = document.getElementById("present");
+
+function initOpeningBox() {
+      var isBoxOpen = false;
+      present.addEventListener("click", function (e) {
+            if (isBoxOpen) {
+                  isBoxOpen = false;
+                  present.classList.toggle("open");
+            } else {
+                  isBoxOpen = true;
+                  cekilisModalAc();
+            }
+      }, false);
+      nametag.innerText = toText;
+}
+initOpeningBox();

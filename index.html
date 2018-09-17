@@ -14,10 +14,6 @@
   <!-- Semantic -->
   <link rel="stylesheet" type="text/css" href="assets/semantic/semantic.min.css">
 
-  <!-- Slick -->
-  <link rel="stylesheet" type="text/css" href="assets/slick/slick.css" />
-  <link rel="stylesheet" type="text/css" href="assets/slick/slick-theme.css" />
-
   <!-- Custom -->
   <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -25,15 +21,25 @@
 
 <body>
   <div id="cover" class="ui">
+    <div id="led-block">
+      <p id="error">Ç<span>e</span>k<span>i</span>l<span>i</span>ş</p>
+      <p id="code">Ya<span>p</span></p>
+    </div>
+    <p id="appDesc">
+      <!-- Belirli bir harcama yapma durumunda hesap ödedikten sonra çekiliş yapma hakkına sahip olacaksınız, çekilişimizde şanslı kişileri
+        tamamen yazılım belirler güven duyabilirsiniz. -->
+    </p>
+
+
 
     <!-- Dimmer -->
     <div class="ui dimmer">
-      <div id="cekilisSonrasiSonuc" class="content">
+      <div id="cekilisSonrasiSonuc-eski" class="content">
         <h1>
           <!-- Ali Bey -->
         </h1>
         <h2 class="ui green icon header">
-          <i class="gift icon"></i>
+          <!-- <i class="gift icon"></i> -->
           <p>
             <!-- Çay -->
           </p>
@@ -41,77 +47,70 @@
             <!-- Hediye Kazandı! -->
           </span>
         </h2>
-        <div class="ui indeterminate massive text loader">d
-          <!-- Sonucunuz Bekleniyor -->
+        <div class="ui indeterminate massive text loader">
+          Sonucunuz Bekleniyor
         </div>
       </div>
     </div>
 
     <br>
     <!-- ÜST BÖLÜM -->
-    <div class="ui raised very padded container segment" id="appheader">
-      <!-- <div class="bg-header">
-        <img class="ui image" src="assets/images/gift-cafe-logo.png" />
-      </div> -->
-      <h1 id="appTitle" class="ui header">
-        <!-- <img class="ui image" src="assets/images/gift-cafe-logo.png" width="250" /> -->
-        <div class="content">
-          <!-- Cafe Çekiliş! -->
-        </div>
-      </h1>
-      <p id="appDesc">
-        <!-- Belirli bir harcama yapma durumunda hesap ödedikten sonra çekiliş yapma hakkına sahip olacaksınız, çekilişimizde şanslı kişileri
-        tamamen yazılım belirler güven duyabilirsiniz. -->
-      </p>
-      <p id="appHeadButton">
-        <button id="btnCekilisModalAc" type="button" class="ui primary inverted huge button">
-          <!-- Başla -->
-        </button>
-      </p>
-    </div>
+    <div class="ui grid raised container segment" id="appheader">
+      <!--class= very padded -->
 
-    <!-- ALT BÖLÜM -->
-    <div class="ui grid container">
-      <!-- sol -->
-      <div id="pastUsageBox" class="six wide column">
-        <h3 class="ui header list-header">Son Çekilişler</h3>
-        <div class="ui segment">
-          <div class="ui relaxed divided list">
-            <!-- <div class="item">
-              <div class="content">
-                <div class="header">Ahmet Bey</div>
-                Çay
-              </div>
-            </div> -->
-          </div>
-        </div>
-
-      </div>
-      <!--/.column-->
-
-      <!--sağ-->
-      <div class="ten wide column">
-        <h3 class="ui header list-header">
-          Kazanabileceğiniz Ürünler
-        </h3>
-
-        <!-- Slick slider html -->
-        <div id="slider1" class="ui segment">
+      <div class="three wide column ui inverted segment" style="padding-bottom:0; margin-bottom:0;">
+        <h3 class="ui header list-header">Kazanabileceğiniz Ürünler</h3>
+        <div id="gift-list" class="ui inverted relaxed divided list">
           <!-- js ile veri buraya çekiliyor -->
-          <!-- <div>
-          <div class="ui fluid image">
-            <div class="ui top right attached label">Çay</div>
-            <img src="https://semantic-ui.com/images/wireframe/square-image.png">
-          </div>
-        </div> -->
         </div>
+      </div>
+
+      <div class="thirteen wide column">
+        <h1 id="appTitle" class="ui header" style="display:none;">
+          <!-- <img class="ui image" src="assets/images/gift-cafe-logo.png" width="250" /> -->
+          <div class="content">
+            <!-- Cafe Çekiliş! -->
+          </div>
+        </h1>
+        <section class="above-fold">
+          <div class="wrap-present">
+            <div class="present-box" id="present">
+              <div class="present">
+                <div class="img-wrap" id="present-image">
+                  <div id="cekilisSonrasiSonuc">
+                    <div>
+                      <h1></h1>
+                      <h2></h2>
+                      <h3>Kazandı !</h3>
+                    </div>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="side front"></div>
+              <div class="side back"></div>
+              <div class="side left"></div>
+              <div class="side right"></div>
+              <div class="side top">
+                <span class="to">
+                    <span class="name" id="nametag"></span>
+                </span>
+              </div>
+              <div class="side bottom"></div>
+            </div>
+          </div>
+        </section>
+
+        <p id="appHeadButton" style="display:none;">
+          <button id="btnCekilisModalAc" type="button" class="ui primary inverted huge button">
+            <!-- Başla -->
+          </button>
+        </p>
+
 
       </div>
-      <!--/.column-->
 
     </div>
-    <!--/.conteiner-->
-
 
     <!-- ÇEKİLİS MODAL -->
     <div id="cekilisModal" class="ui small modal" style="max-width: 400px;">
@@ -193,9 +192,13 @@
         <div class="ui huge icon form" style="width: 100%; margin-bottom: 5px;">
           <textarea id="inputHeaderDesc" rows="2" placeholder="Üst Açıklama..."></textarea>
         </div>
-        <div class="ui huge icon input" style="width: 100%; margin-bottom: 5px;">
+        <!-- <div class="ui huge icon input" style="width: 100%; margin-bottom: 5px;">
           <input id="inputHeaderButtonTitle" type="text" placeholder="Button üstündeki yazı...">
           <i class="clipboard icon"></i>
+        </div> -->
+        <div class="ui huge icon input" style="width: 100%; margin-bottom: 5px;">
+            <input id="inputCekilisSonrasiBekleme" type="number" placeholder="Çekiliş Sonrası Bekleme Süresi">
+            <i class="arrows alternate vertical icon"></i>
         </div>
         <div class="ui huge icon input" style="width: 100%; margin-bottom: 5px;">
           <input id="inputHeaderMarginTop" type="number" placeholder="Uygulama Üstü Boşluk">
@@ -213,8 +216,35 @@
       </div>
     </div>
 
+    <!-- SON ÇEKİLİŞ YAPANLAR -->
+    <div id="pastUsageBoxModal" class="ui small modal" style="max-width: 400px;">
+      <!-- <i class="close icon"></i> -->
+      <div class="header">
+        Son Çekilişler
+      </div>
+      <div class="content">
+        <div id="pastUsageBox">
+          <div class="ui segment">
+            <div class="ui relaxed divided list">
+              <!-- <div class="item">
+                <div class="content">
+                  <div class="header">Ahmet Bey</div>
+                  Çay
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui black deny button">
+          Kapat
+        </div>
+      </div>
+    </div>
+
     <!--DROPDOWN-->
-    <div class="ui icon top left pointing dropdown button" style="position: absolute; right: 3px; bottom: 5px;">
+    <div class="ui icon top left pointing dropdown button" style="position: fixed; right: 3px; bottom: 5px;">
       <i class="info icon"></i>
       <span id="dropdownMessage"></span>
       <div class="menu">
@@ -224,6 +254,7 @@
         <div id="btnSetting" class="item">Ayarlar</div>
         <div id="btnUsageReset" class="item">Kullanıcıları Sıfırla</div>
         <div class="ui divider"></div>
+        <div id="btnPastUsageModal" class="item">Geçmiş Kullanıcılar</div>
         <div id="btnQuit" class="item">Çıkış</div>
       </div>
     </div>
@@ -237,8 +268,6 @@
   <script src="assets/jquery/jquery-2.2.0.min.js" onload="window.$ = window.jQuery;"></script>
 
   <script src="assets/semantic/semantic.min.js"></script>
-
-  <script src="assets/slick/slick.min.js"></script>
 
   <script>
     require('./renderer.js');
